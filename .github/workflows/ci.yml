@@ -44,10 +44,17 @@ jobs:
         echo "DB_HOST=127.0.0.1" >> .env
         echo "DB_PORT=3306" >> .env
 
+    - name: Wait for MySQL to be Ready
+      run: |
+        until mysql -h 127.0.0.1 -u root -proot -e "SELECT 1"; do
+          echo "Waiting for MySQL...";
+          sleep 3;
+        done
+
     - name: Run Migrations
       run: |
         python manage.py migrate
 
     - name: Run Tests
       run: |
-        pytest
+        python manage.py test
