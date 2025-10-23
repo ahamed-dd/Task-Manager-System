@@ -1,13 +1,17 @@
 from rest_framework import serializers
-from .models import User
 import re
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class user_serializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('username', 'password')
+        extra_kwargs = {"password": {"write_only": True}}
 
-    def validate_user_name(self, value):
+    def validate_username(self, value):
         if not value.islower():
             raise serializers.ValidationError("Username should be all lowercase characters")
         return value
@@ -22,3 +26,5 @@ class user_serializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Password must atleast contain a special Character")
         
         return value
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
