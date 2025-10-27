@@ -8,6 +8,14 @@ from .serializers import user_serializer
 class ListCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = user_serializer
+
+class GetCurrentUserView(generics.RetrieveAPIView):
+    
+    serializer_class = user_serializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
     
 
 # class RetriveUDView(generics.RetrieveUpdateDestroyAPIView):
