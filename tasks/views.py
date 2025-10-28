@@ -5,16 +5,23 @@ from .models import Tasks
 
 
 class TaskListView(generics.ListAPIView):
-    queryset = Tasks.objects.all()
     serializer_class = Task_Serializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Tasks.objects.filter(owner=self.request.user)
 
 class TaskCreateView(generics.CreateAPIView):
-    queryset = Tasks.objects.all()
     serializer_class = Task_Serializer
     permission_classes = [IsAuthenticated]
-    
 
+    def get_queryset(self):
+        return Tasks.objects.filter(owner=self.request.user)
 
+class TaskUpdateDeleteView(generics.RetrieveDestroyAPIView):
+    serializer_class = Task_Serializer
+    permission_classes = [IsAuthenticated]
 
-# Create your views here.
+    def get_queryset(self):
+        return Tasks.objects.filter(owner=self.request.user)
+
