@@ -10,7 +10,10 @@ class TaskListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        query_set = Tasks.objects.filter(owner=self.request.user)
+        user = self.request.user
+        if user.is_staff or user.is_superuser:
+            query_set = Tasks.objects.all()
+        query_set = Tasks.objects.filter(owner=user)
         status = self.request.query_params.get('status')
         due_date = self.request.query_params.get('due_date')
 
