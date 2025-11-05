@@ -21,3 +21,4 @@ class Tasks(models.Model):
     
     def __str__(self):
         return f"{self.task} ({self.status})"
+    

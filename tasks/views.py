@@ -13,7 +13,8 @@ class TaskListView(generics.ListAPIView):
         user = self.request.user
         if user.is_staff or user.is_superuser:
             query_set = Tasks.objects.all()
-        query_set = Tasks.objects.filter(owner=user)
+        else:
+            query_set = Tasks.objects.filter(owner=user)
         status = self.request.query_params.get('status')
         due_date = self.request.query_params.get('due_date')
 
