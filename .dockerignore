@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.db
+.env
+.dockerenv
+.git
+.gitignore
+venv/
+node_modules/
+media/
