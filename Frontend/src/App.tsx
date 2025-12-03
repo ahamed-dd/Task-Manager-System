@@ -5,17 +5,26 @@ import { Home } from './Pages/Home'
 import { Login } from './Pages/Login'
 import { Register } from './Pages/Register'
 import { Navbar } from './Components/Navbar'
+import { Tasks } from './Pages/Tasks'
+import { ChakraProvider } from '@chakra-ui/react'
+import { AuthProvider } from './Contexts/useAuth'
+import PrivateRoute from './Components/PrivateRoute'
 
 function App () {
   return(
-    <>
-    <Navbar/>
-    <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/Register' element={<Register/>}/>
-    </Routes>
-    </>
+    
+    <ChakraProvider>
+      <Navbar/>
+
+      <AuthProvider>
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/Register' element={<Register/>}/>
+          <Route path='/tasks' element={<PrivateRoute><Tasks/></PrivateRoute>}/>
+        </Routes>
+      </AuthProvider>
+    </ChakraProvider>
   )
 }
 

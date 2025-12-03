@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { registerUser } from "../api/loginapi"
+import { Button } from "@chakra-ui/react"
 
 export function Register () {
     const [username, setUsername] = useState("")
@@ -83,6 +84,7 @@ export function Register () {
         <>
         <h2>Register Page</h2>
         <label>
+        <br></br>
         <h4>Username</h4>
         <input 
         type="text" 
@@ -113,11 +115,11 @@ export function Register () {
         {errors.confirm && <div style={{ color: "red" }}>{errors.confirm}</div>}
         {serverError && <div style={{ color: "red", marginTop: 8 }}>{serverError}</div>}
         <br></br>
-        <button
+        <Button
         onClick={handleRegister}
         disabled={!isFormValid || isSubmitting}
         style={{ marginTop: 12 }}>
-            {isSubmitting ? "Registering..." : "Register"}</button>
+            {isSubmitting ? "Registering..." : "Register"}</Button>
        
         </>
     )
