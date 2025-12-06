@@ -3,11 +3,15 @@ import axios from "axios"
 import { tr } from "framer-motion/client";
 
 
-const BASE_URL = 'http://127.0.0.1:8000/'
+const REGISTER_URL = 'http://127.0.0.1:8000/accounts/register/'
+const LOGIN_URL = 'http://127.0.0.1:8000/accounts/token/'
+const REFRESH_URL = 'http://127.0.0.1:8000/accounts/token/refresh/'
+const AUTH_URL = 'http://127.0.0.1:8000/accounts/me/'
+const LOGOUT_URL = 'http://127.0.0.1:8000/accounts/logout/'
 
 export const registerUser = async<DT> (user: DT) => {
     try{
-        const response = await fetch(`${BASE_URL}accounts/register/`, {
+        const response = await fetch(`${REGISTER_URL}`, {
             method :"POST",
             headers : {
                 'Content-Type': "application/json",
@@ -24,7 +28,7 @@ export const registerUser = async<DT> (user: DT) => {
 
 export async function loginUser<DT>(username: DT, password: DT) {
     
-    const response = await axios.post(`${BASE_URL}accounts/token/`, 
+    const response = await axios.post(`${LOGIN_URL}`, 
         {username: username, password: password},
         {withCredentials: true}
     )
@@ -34,7 +38,7 @@ export async function loginUser<DT>(username: DT, password: DT) {
 
 export async function refreshToken () {
     try{
-        await axios.post(`${BASE_URL}accounts/token/refresh/`, 
+        await axios.post(`${REFRESH_URL}`, 
         {},
         {withCredentials:true}
     )
@@ -46,13 +50,13 @@ export async function refreshToken () {
 
 export async function userName() {
     try{
-        const response = await axios.get(`${BASE_URL}accounts/me/`,
+        const response = await axios.get(`${AUTH_URL}`,
             {withCredentials:true}
          )
          return response.data
         } catch (err) {
 
-            return callRefresh(err, await axios.get(`${BASE_URL}accounts/me/`,
+            return callRefresh(err, await axios.get(`${AUTH_URL}`,
             {withCredentials:true}
          ) )
 
@@ -73,7 +77,7 @@ export async function callRefresh(err, func) {
 
 export async function logOut() {
     try{
-        await axios.post(`${BASE_URL}accounts/logout/`,
+        await axios.post(`${LOGOUT_URL}`,
             {},
             {withCredentials:true}
         )

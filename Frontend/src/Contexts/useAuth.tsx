@@ -58,8 +58,12 @@ export const AuthProvider = ({children}) => {
     }
 
     useEffect(() => {
+      const protectedRoutes = ["/tasks"];
+      if (protectedRoutes.includes(location.pathname)) {
         getAuthenticatedUser();
-    }, [location.pathname])
+      }
+    }, [location.pathname]);
+
 
     return (
   <AuthContext.Provider value={{ user, loading, login, logoutUser }}>
