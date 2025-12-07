@@ -1,13 +1,14 @@
-import { Fade, Tr } from "@chakra-ui/react";
 import axios from "axios"
-import { tr } from "framer-motion/client";
 
 
-const REGISTER_URL = 'http://127.0.0.1:8000/accounts/register/'
-const LOGIN_URL = 'http://127.0.0.1:8000/accounts/token/'
-const REFRESH_URL = 'http://127.0.0.1:8000/accounts/token/refresh/'
-const AUTH_URL = 'http://127.0.0.1:8000/accounts/me/'
-const LOGOUT_URL = 'http://127.0.0.1:8000/accounts/logout/'
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+export const REGISTER_URL = `${BASE_URL}/accounts/register/`;
+export const LOGIN_URL = `${BASE_URL}/accounts/token/`;
+export const REFRESH_URL = `${BASE_URL}/accounts/token/refresh/`;
+export const AUTH_URL = `${BASE_URL}/accounts/me/`;
+export const LOGOUT_URL = `${BASE_URL}/accounts/logout/`;
+
 
 export const registerUser = async<DT> (user: DT) => {
     try{

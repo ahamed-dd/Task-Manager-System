@@ -1,6 +1,4 @@
-import React, { type ReactNode } from 'react'
-import styled from '@emotion/styled'
-import Sidebar from '../Components/Sidebar'
+import { type ReactNode } from 'react'
 
 type Props = { children:ReactNode}
 

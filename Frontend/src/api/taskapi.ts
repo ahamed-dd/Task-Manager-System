@@ -1,8 +1,9 @@
 import axios from "axios";
-import { tr } from "framer-motion/client";
 
-const GET_URL = 'http://127.0.0.1:8000/tasks/'
-const POST_URL = 'http://127.0.0.1:8000/tasks/create/'
+const BASE_URL = import.meta.env.VITE_API_URL
+
+const GET_URL = `${BASE_URL}/tasks/`
+const POST_URL = `${BASE_URL}/tasks/create/`
 
 
 export async function allTasks () {
