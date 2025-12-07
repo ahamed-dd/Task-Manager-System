@@ -45,7 +45,7 @@ export async function updateTasks (obj: object, pk: number) {
 export async function deleteTasks (pk: number) {
     
     try{
-        const response = await axios.delete(`${GET_URL}${pk}/`,
+        await axios.delete(`${GET_URL}${pk}/`,
             {withCredentials:true})
     } catch (err) {
         console.log("Delete error", err)

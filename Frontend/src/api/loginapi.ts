@@ -1,4 +1,6 @@
 import axios from "axios"
+import { AxiosError } from "axios";
+import type { AxiosResponse } from "axios";
 
 
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -65,16 +67,27 @@ export async function userName() {
 
 }
 
-export async function callRefresh(err, func) {
-    if (err.response && err.response.status === 401){
-        const tokenRefreshed = await refreshToken();
-        if (tokenRefreshed){
-            const retryResponse = await func()
-            return retryResponse.data
-        }
+
+
+export async function callRefresh<T>(
+  err: unknown,
+  func: () => Promise<AxiosResponse<T>>
+): Promise<T | false> {
+
+  const axiosErr = err as AxiosError;
+
+  if (axiosErr.response?.status === 401) {
+    const tokenRefreshed = await refreshToken();
+
+    if (tokenRefreshed) {
+      const retryResponse = await func();
+      return retryResponse.data;
     }
-    return false
+  }
+
+  return false;
 }
+
 
 export async function logOut() {
     try{

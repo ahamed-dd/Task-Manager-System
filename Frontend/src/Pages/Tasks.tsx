@@ -464,7 +464,7 @@ export function Tasks() {
                         <Stack spacing={1}>
                           {task.status && (
                             <Chip
-                              icon={getStatusIcon(task.status)}
+                              icon={getStatusIcon(task.status) || undefined}
                               label={task.status}
                               color={getStatusColor(task.status)}
                               size="small"
