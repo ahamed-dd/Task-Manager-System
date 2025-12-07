@@ -21,11 +21,17 @@ class TestTaskViews(APITestCase):
         self.url_get = reverse("task_list")
         self.url_post = reverse("task_create")
         self.url_updateD = reverse("task_detail", kwargs={'pk': self.task_object.pk})
+    
+    # This is used for normal authorization
+    # def authenticate(self, user):
+    #     refresh = RefreshToken.for_user(user)
+    #     access_token = str(refresh.access_token)
+    #     self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
 
+    # We are using cookies so we are skippin authorization.
     def authenticate(self, user):
-        refresh = RefreshToken.for_user(user)
-        access_token = str(refresh.access_token)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
+        self.client.force_authenticate(user=user)
+
 
 
     def test_get_object(self):
@@ -85,13 +91,6 @@ class TestTaskViews(APITestCase):
         }
         response = self.client.put(self.url_updateD, modified_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-        def test_create_task_missing_field(self):
-            self.authenticate(self.normal_user)
-            data = {"task": ""}  
-            response = self.client.post(self.url_post, data, format='json')
-            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-            self.assertIn("description", response.data)
 
 
 
