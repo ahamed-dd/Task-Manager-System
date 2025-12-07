@@ -142,6 +142,15 @@ function Sidebar({
           InputLabelProps={{
             shrink: true,
           }}
+          inputProps={{
+            style: { cursor: 'pointer' }
+          }}
+          onClick={(e) => {
+            // On desktop, trigger the native date picker
+            if (!isMobile) {
+              (e.target as HTMLInputElement).showPicker?.();
+            }
+          }}
         />
       </Box>
 

@@ -25,8 +25,8 @@ jobs:
           --health-retries=5
 
     env:
-      SECRET_KEY: dummykey
-      DEBUG: true
+      DJANGO_SECRET_KEY: dummykey
+      DJANGO_DEBUG: true
       DB_NAME: test_db
       DB_USER: root
       DB_PASSWORD: root

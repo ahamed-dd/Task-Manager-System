@@ -588,6 +588,15 @@ export function Tasks() {
             InputLabelProps={{ shrink: true }}
             value={formData.due_date}
             onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
+            inputProps={{
+              style: { cursor: 'pointer' }
+            }}
+            onClick={(e) => {
+              // On desktop, trigger the native date picker
+              if (!isMobile) {
+                (e.target as HTMLInputElement).showPicker?.();
+              }
+            }}
           />
           <TextField
             label="Category"
@@ -651,6 +660,15 @@ export function Tasks() {
             InputLabelProps={{ shrink: true }}
             value={formData.due_date}
             onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
+            inputProps={{
+              style: { cursor: 'pointer' }
+            }}
+            onClick={(e) => {
+              // On desktop, trigger the native date picker
+              if (!isMobile) {
+                (e.target as HTMLInputElement).showPicker?.();
+              }
+            }}
           />
           <TextField
             label="Category"
