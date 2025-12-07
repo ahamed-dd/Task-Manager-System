@@ -1,4 +1,4 @@
-// Tasks.tsx - Desktop-first task management interface with automatic status handling
+// Tasks.tsx - Fixed desktop-first task management interface
 import { useState, useEffect, useMemo } from 'react';
 import {
   Box,
@@ -84,22 +84,18 @@ export function Tasks() {
   // Fetch all tasks on component mount
   useEffect(() => {
     fetchTasks();
-    // Check for overdue tasks every time component mounts
     checkAndUpdateOverdueTasks();
     
-    // Set interval to check every hour (3600000 ms)
     const interval = setInterval(checkAndUpdateOverdueTasks, 3600000);
     return () => clearInterval(interval);
   }, []);
 
-  // Re-check overdue status after fetching tasks
   useEffect(() => {
     if (tasks.length > 0) {
       checkAndUpdateOverdueTasks();
     }
   }, [tasks.length]);
 
-  // Apply filters whenever tasks or filter criteria change
   useEffect(() => {
     applyFilters();
   }, [tasks, statusFilter, categoryFilter, dueDateFilter, searchQuery]);
@@ -113,10 +109,9 @@ export function Tasks() {
     }
   };
 
-  // Automatically update overdue tasks based on due date
   const checkAndUpdateOverdueTasks = async () => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to midnight for accurate comparison
+    today.setHours(0, 0, 0, 0);
 
     const tasksToUpdate = tasks.filter((task) => {
       if (!task.due_date || task.status === 'completed') return false;
@@ -124,11 +119,9 @@ export function Tasks() {
       const dueDate = new Date(task.due_date);
       dueDate.setHours(0, 0, 0, 0);
       
-      // If due date has passed and status is not overdue
       return dueDate < today && task.status !== 'overdue';
     });
 
-    // Update each overdue task
     for (const task of tasksToUpdate) {
       try {
         const updated = await updateTasks(
@@ -137,11 +130,10 @@ export function Tasks() {
             description: task.description || '',
             due_date: task.due_date || '',
             category: task.category || '',
-            status: 'overdue', // Set status to overdue
+            status: 'overdue',
           },
           task.id
         );
-        // Update local state
         setTasks((prev) => prev.map((t) => (t.id === task.id ? updated : t)));
       } catch (err) {
         console.error('Error updating overdue task:', err);
@@ -149,26 +141,21 @@ export function Tasks() {
     }
   };
 
-  // Apply all active filters to tasks
   const applyFilters = () => {
     let filtered = [...tasks];
 
-    // Status filter
     if (statusFilter) {
       filtered = filtered.filter((t) => t.status === statusFilter);
     }
 
-    // Category filter
     if (categoryFilter) {
       filtered = filtered.filter((t) => t.category === categoryFilter);
     }
 
-    // Due date filter
     if (dueDateFilter) {
       filtered = filtered.filter((t) => t.due_date === dueDateFilter);
     }
 
-    // Search filter (searches in task name and description)
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -181,13 +168,11 @@ export function Tasks() {
     setFilteredTasks(filtered);
   };
 
-  // Get unique categories from all tasks
   const categories = useMemo(() => {
     const cats = tasks.map((t) => t.category).filter(Boolean);
     return [...new Set(cats)] as string[];
   }, [tasks]);
 
-  // Calculate task statistics
   const stats = useMemo(() => {
     const total = tasks.length;
     const completed = tasks.filter((t) => t.status === 'completed').length;
@@ -196,7 +181,6 @@ export function Tasks() {
     return { total, completed, pending, overdue };
   }, [tasks]);
 
-  // Handle adding a new task
   const handleAddTask = async () => {
     try {
       const payload = {
@@ -214,7 +198,6 @@ export function Tasks() {
     }
   };
 
-  // Handle editing a task
   const handleEditTask = async () => {
     if (!currentTask) return;
 
@@ -234,7 +217,6 @@ export function Tasks() {
     }
   };
 
-  // Handle deleting a task
   const handleDeleteTask = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this task?')) return;
 
@@ -246,7 +228,6 @@ export function Tasks() {
     }
   };
 
-  // Change task status (pending <-> completed) - Updated to work directly
   const handleStatusChange = async (newStatus: 'pending' | 'completed') => {
     if (!selectedTaskForStatus) return;
 
@@ -256,19 +237,18 @@ export function Tasks() {
         description: selectedTaskForStatus.description || '',
         due_date: selectedTaskForStatus.due_date || '',
         category: selectedTaskForStatus.category || '',
-        status: newStatus, // Update status
+        status: newStatus,
       };
       const updated = await updateTasks(payload, selectedTaskForStatus.id);
       setTasks((prev) =>
         prev.map((t) => (t.id === selectedTaskForStatus.id ? updated : t))
       );
-      setSelectedTaskForStatus(null); // Reset after update
+      setSelectedTaskForStatus(null);
     } catch (err) {
       console.error('Error updating status:', err);
     }
   };
 
-  // Open edit dialog with task data
   const openEditDialog = (task: Task) => {
     setCurrentTask(task);
     setFormData({
@@ -285,7 +265,6 @@ export function Tasks() {
     setCurrentTask(null);
   };
 
-  // Get status color for chips
   const getStatusColor = (status?: string) => {
     switch (status) {
       case 'completed':
@@ -299,7 +278,6 @@ export function Tasks() {
     }
   };
 
-  // Get status icon
   const getStatusIcon = (status?: string) => {
     switch (status) {
       case 'completed':
@@ -317,7 +295,7 @@ export function Tasks() {
     <>
       <Navbar />
       <Box sx={{ display: 'flex', minHeight: 'calc(100vh - 64px)', bgcolor: 'background.default' }}>
-        {/* Sidebar for filters - Desktop permanent, Mobile drawer */}
+        {/* Sidebar for filters */}
         <Sidebar
           onStatusChange={setStatusFilter}
           onCategoryChange={setCategoryFilter}
@@ -327,18 +305,24 @@ export function Tasks() {
           onClose={() => setSidebarOpen(false)}
         />
 
-        {/* Main content area - Desktop-first layout */}
+        {/* Main content area - FIXED: Removed margin-left, content now centered */}
         <Box
           component="main"
           sx={{
             flexGrow: 1,
-            p: { xs: 2, sm: 3, md: 4 }, // More padding on desktop
-            ml: { xs: 0, md: '280px' }, // Sidebar offset only on desktop
-            width: { xs: '100%', md: 'calc(100% - 280px)' }, // Ensure proper width
+            width: '100%',
             minHeight: 'calc(100vh - 64px)',
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
-          <Container maxWidth="xl">
+          <Container 
+            maxWidth="xl" 
+            sx={{ 
+              p: { xs: 2, sm: 3, md: 4 },
+              width: '100%',
+            }}
+          >
             {/* Header with user greeting and search */}
             <Box sx={{ mb: 4 }}>
               <Typography variant="h4" gutterBottom fontWeight={600}>
@@ -502,7 +486,7 @@ export function Tasks() {
                           </IconButton>
                         </Tooltip>
                         
-                        {/* Status change buttons - visible and clear */}
+                        {/* Status change buttons */}
                         {task.status !== 'overdue' && (
                           <>
                             {task.status === 'pending' && (
@@ -545,7 +529,7 @@ export function Tasks() {
             )}
           </Container>
 
-          {/* Floating action button to add task */}
+          {/* Floating action button */}
           <Button
             variant="contained"
             startIcon={<Add />}

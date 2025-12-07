@@ -1,4 +1,4 @@
-// Sidebar.tsx - Desktop-first filter sidebar with status, category, and due date filters
+// Sidebar.tsx - Fixed filter sidebar with proper mobile drawer positioning
 import { useState } from 'react';
 import {
   Drawer,
@@ -24,7 +24,7 @@ type SidebarProps = {
   onStatusChange: (status: string | null) => void;
   onCategoryChange: (category: string | null) => void;
   onDueDateChange: (date: string | null) => void;
-  categories?: string[]; // Available categories from tasks
+  categories?: string[];
   open: boolean;
   onClose: () => void;
 };
@@ -43,29 +43,24 @@ function Sidebar({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  // Handle status filter change
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSelectedStatus(value);
-    // Pass null for 'all', otherwise pass the status value
     onStatusChange(value === 'all' ? null : value);
   };
 
-  // Handle category filter change
   const handleCategoryChange = (category: string) => {
     const newCategory = category === selectedCategory ? 'all' : category;
     setSelectedCategory(newCategory);
     onCategoryChange(newCategory === 'all' ? null : newCategory);
   };
 
-  // Handle due date filter change
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSelectedDate(value);
     onDueDateChange(value || null);
   };
 
-  // Clear all filters
   const handleClearFilters = () => {
     setSelectedStatus('all');
     setSelectedCategory('all');
@@ -171,37 +166,50 @@ function Sidebar({
 
   return (
     <>
-      {/* Desktop permanent drawer - shows by default */}
+      {/* Desktop permanent drawer - positioned relative to viewport */}
       <Drawer
         variant="permanent"
         sx={{
           width: 280,
           flexShrink: 0,
-          display: { xs: 'none', md: 'block' }, // Hide on mobile, show on desktop
+          display: { xs: 'none', md: 'block' },
           '& .MuiDrawer-paper': {
             width: 280,
             boxSizing: 'border-box',
-            top: 64, // Below navbar
+            top: 64,
             height: 'calc(100% - 64px)',
+            position: 'fixed', // Fixed positioning
+            left: 0,
+            zIndex: theme.zIndex.drawer,
           },
         }}
       >
         {sidebarContent}
       </Drawer>
 
-      {/* Mobile temporary drawer */}
+      {/* Mobile temporary drawer - FIXED: Proper z-index below navbar */}
       <Drawer
         variant="temporary"
+        anchor="left"
         open={open}
         onClose={onClose}
         ModalProps={{
-          keepMounted: true,
+          keepMounted: true, // Better mobile performance
         }}
         sx={{
-          display: { xs: 'block', md: 'none' }, // Show on mobile, hide on desktop
+          display: { xs: 'block', md: 'none' },
           '& .MuiDrawer-paper': {
             width: 280,
             boxSizing: 'border-box',
+            top: 64, // Start below the navbar
+            height: 'calc(100% - 64px)', // Full height minus navbar
+            // z-index below navbar (appBar default is 1100)
+            zIndex: theme.zIndex.drawer, // 1200, but modal backdrop handles layering
+          },
+          // Ensure modal backdrop is below navbar
+          '& .MuiBackdrop-root': {
+            top: 64,
+            height: 'calc(100% - 64px)',
           },
         }}
       >
