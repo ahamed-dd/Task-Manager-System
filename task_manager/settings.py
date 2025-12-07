@@ -94,7 +94,7 @@ if DEBUG:
 else:  # render
     DATABASES = {
         'default': dj_database_url.config(
-            default=env('postgresql://task_manager_system_hscm_user:lmvHZk9MYhuOWh63eP4q79ZRbrLpxvt3@dpg-d4qiplidbo4c73bslgm0-a.singapore-postgres.render.com/task_manager_system_hscm'),
+            default=env('DATABASE_URL'),
             conn_max_age=600,
             ssl_require=True,
         )
