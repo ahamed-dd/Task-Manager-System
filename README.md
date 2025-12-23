@@ -1,7 +1,9 @@
  ## Task Manager System (Django REST)
 
-A RESTful API built with Django REST Framework for managing users, tasks, and authentication.
+A RESTful API built with Django REST Framework and React for managing users, tasks, and authentication.
 This project simulates a real-world software company workflow — including Agile sprints, CI/CD, automated testing, and deployment.
+
+# <a href:"https://task-manager-system-1-7ceq.onrender.com/"> Live Demo </a>
 
 Table of Contents
 General Info
@@ -11,12 +13,11 @@ Usage
 Collaboration
 General Info
 
-Status: In Development (Sprint 0 → Sprint 4)
-Purpose: Implement the full Software Development Life Cycle (SDLC) — from design to deployment — using Django REST Framework and modern DevOps tools.
-
 # Key Features:
 
 - JWT-based authentication and authorization
+
+- Responsive React Frontend
 
 - User and Task management (CRUD operations)
 
@@ -35,6 +36,7 @@ Purpose: Implement the full Software Development Life Cycle (SDLC) — from desi
 # Technologies
 
 - Python: 3.10+
+- React (TypeScript)
 - Django: 5.x
 - Django REST Framework (DRF): 3.x
 - MySQL: Relational database
@@ -47,101 +49,46 @@ Purpose: Implement the full Software Development Life Cycle (SDLC) — from desi
 - Jira: Agile sprint planning
 
 ## Installation
-# 1️⃣ Clone the repository
+# 1. Clone the repository
 git clone https://github.com/<your-username>/task-manager-django.git
 cd task-manager-django
 
-# 2️⃣ Create and activate a virtual environment
+# 2. Create and activate a virtual environment
 python -m venv venv
 source venv/bin/activate        # macOS/Linux
 venv\Scripts\activate           # Windows
 
-# 3️⃣ Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 4️⃣ Set up environment variables
+# 4. Set up environment variables
 cp .env.example .env
 
 # Example .env content
-SECRET_KEY=your_secret_key
-DEBUG=True
-DATABASE_URL=postgres://user:password@localhost:5432/taskmanager
-ALLOWED_HOSTS=127.0.0.1,localhost
+DJANGO_SECRET_KEY= xxxxxxxxxxxxxxxx
+DJANGO_DEBUG=True
 
-# 5️⃣ Run migrations
+DB_NAME=manager_db
+DB_USER=root
+DB_PASSWORD=xxxxxxx
+DB_HOST=localhost
+DB_PORT=3306
+
+JWT_SECRET_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# 5. Run migrations
 python manage.py migrate
 
-# 6️⃣ Create superuser
+# 6. Create superuser
 python manage.py createsuperuser
 
-# 7️⃣ Start the development server
+# 7. Start the development server
 python manage.py runserver
 
-Usage
+# 8. Run React Frontend
+npm run dev
 
-Once the server is running:
+# Deployment
+I have used Render for deployment, as it support integration with postgreSQL and Static Site support. You can deploy anywhere in your choice.
+If you are deploying in sever(AWS, of Azure), make use of Docker and Nginx files which are fully configured. Clone the repository, run the Docker-compose.
 
-Visit http://127.0.0.1:8000/api/ → Main API endpoint
-
-Visit http://127.0.0.1:8000/admin/ → Django Admin dashboard
-
-API documentation (if enabled): http://127.0.0.1:8000/swagger/ or /redoc/
-
-Example Endpoints
-Method	Endpoint	Description
-POST	/api/auth/register/	Register new user
-POST	/api/auth/login/	Obtain JWT access token
-GET	/api/tasks/	List all tasks for logged-in user
-POST	/api/tasks/	Create a new task
-PUT	/api/tasks/{id}/	Update a task
-DELETE	/api/tasks/{id}/	Delete a task
-Example Request
-curl -X POST http://127.0.0.1:8000/api/auth/register/ \
--H "Content-Type: application/json" \
--d '{"username": "ahamed", "password": "strongpass123"}'
-
-Example Response
-{
-  "id": 1,
-  "username": "ahamed",
-  "email": "ahamed@example.com",
-  "token": "eyJ0eXAiOiJKV1QiLCJh..."
-}
-
-# Collaboration
-🧩 Contributing
-
-Fork the repository
-
-Create your feature branch:
-git checkout -b feature/new-feature
-
-Commit your changes:
-git commit -m "Add new feature"
-
-Push to your branch:
-git push origin feature/new-feature
-
-Open a pull request
-
-# Code of Conduct
-
-Be respectful, follow PEP8 guidelines, and write meaningful commit messages.
-Ensure all tests pass before merging to the main branch.
-
-# Reporting Issues
-
-Use GitHub Issues or simulate a Jira ticket for bugs and feature requests.
-
-Example requirements.txt
-Django>=5.0
-djangorestframework
-djangorestframework-simplejwt
-django-environ
-psycopg2-binary
-pytest
-pytest-django
-black
-flake8
-isort
-gunicorn
