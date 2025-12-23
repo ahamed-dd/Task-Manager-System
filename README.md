@@ -3,7 +3,7 @@
 A RESTful API built with Django REST Framework and React for managing users, tasks, and authentication.
 This project simulates a real-world software company workflow — including Agile sprints, CI/CD, automated testing, and deployment.
 
-<a href:"https://task-manager-system-1-7ceq.onrender.com/"> Live Demo </a>
+[Live Demo](https://task-manager-system-1-7ceq.onrender.com/ "Optional tooltip")
 
 Table of Contents
 General Info
