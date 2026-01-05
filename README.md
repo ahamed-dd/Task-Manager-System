@@ -1,94 +1,54 @@
- ## Task Manager System (Django REST)
+## Task Manager System — Full-Stack (Django REST + React)
 
-A RESTful API built with Django REST Framework and React for managing users, tasks, and authentication.
-This project simulates a real-world software company workflow — including Agile sprints, CI/CD, automated testing, and deployment.
+A **full-stack task management application** built with Django REST Framework and **React (TypeScript)**.  
+It supports **cookie-based authentication**, role-based access, and follows a real-world software development workflow.
 
-[Live Demo](https://task-manager-system-1-7ceq.onrender.com/ "Optional tooltip")
+🔗 Live Demo: https://task-manager-system-1-7ceq.onrender.com/
 
-Table of Contents
-General Info
-Technologies
-Installation
-Usage
-Collaboration
-General Info
+**Demo login (no signup required)**
+- Username: `testuser123`  
+- Password: `testuser@12`
+> Note: The app may take **up to ~50 seconds to start** on first load due to free-tier hosting cold starts.
+---
 
-# Key Features:
+### What this app does
+- Users can authenticate and manage tasks
+- Tasks support full **CRUD operations**
+- **Role-based access control** (Admin / Standard user)
+- Secure **cookie-based authentication** using JWT
+- Backend APIs consumed by a typed React frontend
 
-- JWT-based authentication and authorization
+---
 
-- Responsive React Frontend
+### Key highlights
+- Django REST Framework backend with clean API design  
+- React + TypeScript frontend with API integration  
+- **JWT stored in HTTP-only cookies** for secure authentication  
+- PostgreSQL database with migrations  
+- Environment-based configuration using `.env`  
+- **CI/CD pipeline with GitHub Actions**  
+- Dockerized setup with Gunicorn for production  
+- Agile-style development tracked using **Jira (Epics → Stories → Tasks)**  
 
-- User and Task management (CRUD operations)
+---
 
-- Role-based access (Admin / Standard user)
+### Tech stack
+**Backend**
+- Python, Django, Django REST Framework
+- PostgreSQL
+- SimpleJWT (cookie-based auth)
 
-- PostgreSQL database with migrations
+**Frontend**
+- React
+- TypeScript
+- Axios
 
-- Environment-based configuration using .env
+**DevOps & Tools**
+- Docker
+- GitHub Actions
+- Jira
+- Render (deployment)
 
-- Unit testing and CI/CD with GitHub Actions
+---
 
-- Docker-based deployment
-
-- Jira-based sprint tracking (Epics → Stories → Tasks)
-
-# Technologies
-
-- Python: 3.10+
-- React (TypeScript)
-- Django: 5.x
-- Django REST Framework (DRF): 3.x
-- MySQL: Relational database
-- djangorestframework-simplejwt: JWT authentication
-- django-environ: Environment variable management
-- pytest-django: Testing framework
-- Gunicorn: Production WSGI server
-- Docker: Containerization
-- GitHub Actions: CI/CD automation
-- Jira: Agile sprint planning
-
-## Installation
-# 1. Clone the repository
-git clone https://github.com/<your-username>/task-manager-django.git
-cd task-manager-django
-
-# 2. Create and activate a virtual environment
-python -m venv venv
-source venv/bin/activate        # macOS/Linux
-venv\Scripts\activate           # Windows
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Set up environment variables
-cp .env.example .env
-
-# Example .env content
-DJANGO_SECRET_KEY= xxxxxxxxxxxxxxxx
-DJANGO_DEBUG=True
-
-DB_NAME=manager_db
-DB_USER=root
-DB_PASSWORD=xxxxxxx
-DB_HOST=localhost
-DB_PORT=3306
-
-JWT_SECRET_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-# 5. Run migrations
-python manage.py migrate
-
-# 6. Create superuser
-python manage.py createsuperuser
-
-# 7. Start the development server
-python manage.py runserver
-
-# 8. Run React Frontend
-npm run dev
-
-# Deployment
-I have used Render for deployment, as it support integration with postgreSQL and Static Site support. You can deploy anywhere in your choice.
-If you are deploying in sever(AWS, of Azure), make use of Docker and Nginx files which are fully configured. Clone the repository, run the Docker-compose.
-
+Built to practice and demonstrate **real-world full-stack development**, from API design and authentication to deployment and iteration.
